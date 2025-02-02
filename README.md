@@ -9,6 +9,10 @@ Usage:
 Example:
 - `./hn-news.sh 42910829`
 
+Installation:
+- Just clone this repo, or copy the shell script to your PATH
+- chmod +x hn-news.sh
+
 The script will output a summary of the themes and quotes from the discussion, formatted as follows:
 
 ```
