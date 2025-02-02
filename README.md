@@ -25,3 +25,4 @@ Quotes:
 
 Note: The script uses the ollama summarizer to generate the summary. Ensure that ollama is installed and available in your PATH.
 
+Notes: This is a modified script based on https://til.simonwillison.net/llms/claude-hacker-news-themes#user-content-adding-a--m-model-option for my personal use only. If this helps anyone else - please thank Simon for sharing his knowledge. You can enhance the script to accept a model parameter, I dont - I have no interest in evaluating models, I needed this to just summarize articles!
