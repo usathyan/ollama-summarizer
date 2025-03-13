@@ -12,4 +12,4 @@ text=$(curl -s "https://hn.algolia.com/api/v1/items/$1" | jq -r '
 ')
 
 # Run ollama with the text, properly quoted
-printf '%s' "$text" | ollama run gemma2 "Summarize the themes of the opinions expressed here, including quotes where appropriate."
+printf '%s' "$text" | ollama run gemma3 "Summarize the themes of the opinions expressed here, in a bulleted list with some more additional details, and a final summary including quotes where appropriate."

@@ -1,28 +1,93 @@
-hn-news.sh - A script to summarize the themes of opinions expressed in a Hacker News discussion.
+# Ollama Summarizer Scripts
 
-Dependencies: Make sure you have ollama installed. The script uses gemma2, change it if you want to use a different model.
+A collection of scripts for summarizing content using Ollama's local LLMs.
 
-Usage:
-- Run the script with an integer argument representing the Hacker News item ID.
-- You can get the news iD when you navigate to the topic discussion.
+## Dependencies
 
-Example:
-- `./hn-news.sh 42910829`
+- **ollama**: Required for all scripts. Used for text summarization.
+- **lynx**: Required for webpage text extraction (for summarize-url.sh)
+- **poppler-utils**: Required for PDF processing (for summarize-url.sh)
 
-The script will output a summary of the themes and quotes from the discussion, formatted as follows:
+### Installation
 
-```
-Themes:
-- Scientific Fraud & Misconduct
-- Alzheimer's Research
-- Ethical Considerations
+On macOS:
+```bash
+# Install required tools
+brew install ollama lynx poppler
 
-Quotes:
-- "This research is fraudulent and should be retracted."
-- "I'm concerned about the validity of this study."
-- "Ethical issues in Alzheimer's research need to be addressed."
+# Pull the required Ollama model
+ollama pull gemma3
 ```
 
-Note: The script uses the ollama summarizer to generate the summary. Ensure that ollama is installed and available in your PATH.
+On Ubuntu/Debian:
+```bash
+# Install required tools
+sudo apt-get install lynx poppler-utils
 
-Notes: This is a modified script based on https://til.simonwillison.net/llms/claude-hacker-news-themes#user-content-adding-a--m-model-option for my personal use only. If this helps anyone else - please thank Simon for sharing his knowledge. You can enhance the script to accept a model parameter, I dont - I have no interest in evaluating models, I needed this to just summarize articles!
+# Install Ollama (follow instructions from their website)
+curl https://ollama.ai/install.sh | sh
+
+# Pull the required Ollama model
+ollama pull gemma3
+```
+
+## Scripts
+
+### hn-news.sh
+
+Summarizes themes and opinions from Hacker News discussions.
+
+#### Usage
+```bash
+./hn-news.sh <item_id>
+```
+Where `<item_id>` is the Hacker News item ID (found in the URL of the discussion).
+
+#### Example
+```bash
+./hn-news.sh 42910829
+```
+
+The script will output a summary of discussion themes with relevant quotes.
+
+### summarize-url.sh
+
+Summarizes content from webpages and PDF documents, including special handling for arXiv papers.
+
+#### Usage
+```bash
+./summarize-url.sh <url>
+```
+Where `<url>` can be:
+- A webpage URL
+- A PDF document URL
+- An arXiv paper URL (both abstract and PDF URLs are supported)
+
+#### Examples
+```bash
+# Summarize a webpage
+./summarize-url.sh https://example.com
+
+# Summarize a PDF
+./summarize-url.sh https://example.com/document.pdf
+
+# Summarize an arXiv paper
+./summarize-url.sh https://arxiv.org/abs/2501.00148
+```
+
+#### Features
+- Automatic handling of arXiv URLs
+- PDF text extraction
+- Webpage content extraction
+- Error handling for various scenarios (authentication required, JavaScript-heavy sites, etc.)
+- Retry mechanism for PDF downloads
+- Temporary file cleanup
+
+## Notes
+
+- Both scripts use gemma3 as the default model. You can modify the scripts to use a different Ollama model if desired.
+- The hn-news.sh script is based on Simon Willison's work (https://til.simonwillison.net/llms/claude-hacker-news-themes), modified for use with Ollama.
+- For websites requiring authentication or heavy JavaScript, summarize-url.sh may not be able to extract content directly. In such cases, you can:
+  1. Copy the text content directly from the webpage
+  2. Save the page as PDF and use the PDF URL
+  3. Use a public URL that doesn't require authentication
